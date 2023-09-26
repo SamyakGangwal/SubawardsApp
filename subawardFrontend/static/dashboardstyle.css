@@ -1,0 +1,45 @@
+/* dashboardstyle.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align items horizontally */
+    gap: 1rem;
+  }
+  
+  .heading-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    gap: 3rem; /* Increase the gap between options and critical alerts */
+  }
+  
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    flex-grow: 1;
+  }
+  
+  .option {
+    width: 50%; /* Adjust the width of the options */
+    display: block;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 2px solid #0080ff;
+    border-radius: 5px;
+    color: #0080ff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .option:hover {
+    background-color: #0080ff;
+    color: white;
+  }
+  
+  .critical-alerts {
+    text-align: left;
+  }
+  

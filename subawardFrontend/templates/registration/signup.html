@@ -1,0 +1,82 @@
+{% load static %}
+<!-- Make sure this line is at the top of your template -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="{%  static '/home/favicon.ico' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static '/styles.css' %}" />
+    <link rel="stylesheet" href="{% static '/signupstyle.css' %}" />
+
+    <title>Register</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1 class="register-header">Register</h1>
+
+        <form class="register-form" method="post">
+          {% csrf_token %}
+          <div class="register-input-container">
+            <input
+              type="text"
+              name="username"
+              placeholder="{{ form.username.label }}"
+              class="register-input"
+            />
+            <div class="information-icon">
+              <img
+                src="{% static '/images/info_icon.png' %}"
+                alt="Info"
+                class="register-icon"
+              />
+              <span class="register-tooltip"
+                >Required. 150 characters or fewer. Letters, digits and
+                @/./+/-/_ only.</span
+              >
+            </div>
+          </div>
+          <div class="register-input-container">
+            <input
+              id="password"
+              type="password"
+              name="password1"
+              placeholder="{{ form.password1.label }}"
+              class="register-input"
+            />
+            <div class="information-icon">
+              <img
+                src="{% static '/images/info_icon.png' %}"
+                alt="Info"
+                class="register-icon"
+              />
+              <span class="register-tooltip"
+                >Your password can’t be too similar to your other personal
+                information. Your password must contain at least 8 characters,
+                including letters and numbers.</span
+              >
+            </div>
+          </div>
+          <div class="register-input-container passwords-not-match">
+            <input
+              id="confirm_password"
+              type="password"
+              name="password2"
+              placeholder="{{ form.password2.label }}"
+              class="register-input"
+            />
+          </div>
+          <button type="submit" class="styled-button">Register</button>
+        </form>
+
+        <div class="links">
+          <a href="{% url 'login' %}">Back to login</a>
+          <a href="{% url 'dashboard' %}">Back to Home</a>
+        </div>
+      </div>
+    </div>
+    <script src="{% static '/signupscript.js' %}"></script>
+  </body>
+</html>

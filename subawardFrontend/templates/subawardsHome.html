@@ -1,0 +1,42 @@
+{% load static %}  <!-- Make sure this line is at the top of your template -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="{%  static '/home/favicon.ico' %}">
+  <link rel="stylesheet" href="{% static '/styles.css' %}">
+  <link rel="stylesheet" href="{% static '/dashboardstyle.css' %}">
+  <title>{% if user.is_authenticated %}Dashboard{% else %}Welcome to Subaward Management System{% endif %}</title>
+</head>
+<body>
+  <div class="container">
+    {% if user.is_authenticated %}
+      <h1>Dashboard</h1>
+      <div class="heading-options">
+        <div class="options">
+          <a href="{% url 'subaward_request_tracking' %}" class="option">Subaward Request and Tracking</a>
+          <a href="{% url 'list_records' %}" class="option">Records</a>
+        </div>
+        <div class="critical-alerts">
+          <h2>Critical alerts</h2>
+          <p>Alert: There has been a security breach detected.</p>
+          <p>Alert: System maintenance scheduled for tomorrow.</p>
+        </div>
+      </div>
+      <div class="links">
+          <a href="{% url 'logout' %}">Logout</a>
+      </div>
+    {% else %}
+      <h1>Welcome to Subaward Management System</h1>
+      <p>Hello, {{ user.username|default:'Guest' }}</p>
+      <p>Experience streamlined subaward management like never before.</p>
+      <div class="links">
+        <a href="{% url 'signup' %}">Sign Up</a>
+        <a href="{% url 'login' %}">Login</a>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>

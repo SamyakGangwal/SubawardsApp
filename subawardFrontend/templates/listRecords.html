@@ -1,0 +1,140 @@
+{% load static %}
+<!-- Make sure this line is at the top of your template -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Subaward Records</title>
+  <link rel="shortcut icon" href="{% static 'home/favicon.ico' %}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'record_styles.css' %}" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="logout-links">
+        <a href="{% url 'logout' %}">Logout</a>
+      </div>
+      <h1 class="recordMg">Record Management</h1>
+      <!-- Buttons to switch between sections -->
+      <div id="button-container">
+        <button id="subawardButton">Subaward Tracking</button>
+        <button id="financialButton">Financial Compliance</button>
+      </div>
+
+      <!-- Back button (initially hidden) -->
+      <button id="backButton" class="hidden">Back</button>
+
+      <!-- Subaward Tracking Section -->
+      <div id="subawardSection" class="hidden">
+        <h2>Subaward Tracking</h2>
+        <div id="amendment-detail">
+          <table class="amendment-table">
+            <thead>
+              <tr>
+                <th>Amendment ID</th>
+                <th>Date of Creation</th>
+                <th>Subrecipient Name</th>
+                <th>Project Id</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for record in subawardT %}
+              <tr>
+                <td><a class="amendment-item" data-amendment-id="{{ record.SATAmmendmentId }}" href="{% url 'subaward_detail'  amendment_id=record.SATAmmendmentId %}"> {{record.SATAmmendmentId }}</a></td>
+                <td id="timestamp">{{ record.created }}</td>
+                <td>{{ record.SubrecipientName }}</td>
+                <td>{{ record.ProjectId }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Financial Compliance Section -->
+      <div id="financialSection" class="hidden">
+        <h2>Financial Compliance</h2>
+        <div id="amendment-detail">
+          <table class="amendment-table">
+            <thead>
+              <tr>
+                <th>Amendment ID</th>
+                <th>Date of Creation</th>
+                <th>Subrecipient Name</th>
+                <th>Project Id</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for record in financialComp %}
+              <tr>
+                <td><a class="amendment-item" data-amendment-id="{{ record.FCDAmmendmentId }}"
+                    href="{% url 'financial_compliance_dashboard'  amendment_id=record.FCDAmmendmentId %}">
+                    {{ record.FCDAmmendmentId }}</a></td>
+                <td id="timestamp">{{ record.created }}</td>
+                <td>{{ record.SATAmmendmentId.SubrecipientName }}</td>
+                <td>{{ record.SATAmmendmentId.ProjectId }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="links">
+      <a href="{% url 'dashboard' %}">Home</a>
+    </div>
+  </div>
+
+  <script>
+    const sFbuttons = document.getElementById("button-container");
+    const subawardButton = document.getElementById("subawardButton");
+    const financialButton = document.getElementById("financialButton");
+    const backButton = document.getElementById("backButton");
+    const subawardSection = document.getElementById("subawardSection");
+    const financialSection = document.getElementById("financialSection");
+
+    subawardButton.addEventListener("click", () => {
+      subawardSection.style.display = "block";
+      sFbuttons.style.display = "none";
+      financialSection.style.display = "none";
+      backButton.style.display = "block";
+    });
+
+    financialButton.addEventListener("click", () => {
+      financialSection.style.display = "block";
+      sFbuttons.style.display = "none";
+      subawardSection.style.display = "none";
+      backButton.style.display = "block";
+    });
+
+    backButton.addEventListener("click", () => {
+      financialSection.style.display = "none";
+      subawardSection.style.display = "none";
+      backButton.style.display = "none";
+      sFbuttons.style.display = "block";
+    });
+
+    // Get the timestamp element
+    const timezoneElements = document.querySelectorAll("tbody td#timestamp");
+
+    timezoneElements.forEach((element) => {
+      // Get the timestamp in UTC format
+      const timestampUTC = new Date(element.textContent);
+
+      // Convert to the client's local timezone (Eastern Time in this case)
+      const options = { timeZone: 'America/New_York', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+      const timestampLocal = timestampUTC.toLocaleDateString('en-US', options);
+
+      // Update the content with the local timestamp
+      element.textContent = timestampLocal;
+    });
+
+  </script>
+</body>
+
+</html>

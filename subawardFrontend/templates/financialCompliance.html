@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="{% static '/home/favicon.ico' %}" />
+  <link rel="stylesheet" href="{% static 'styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'financialcompliancestyle.css' %}" />
+  <title>Financial Compliance Form</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="logout-links">
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+    <div class="back-link">
+        <a href="{% url 'list_records' %}">Back</a>
+    </div>
+    <button id="editButton" class="styled-button">Edit</button>
+    <h1 class="recordMg">Subaward Tracking</h1>
+      <h1 class="financial-compliance-header">Financial Compliance Form</h1>
+      <form class="financial-compliance-form" method="post">
+        {% csrf_token %}
+        <div class="form-grid">
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="POnumber">POnumber:</label>
+            <input type="text" name="POnumber" class="financial-compliance-input" placeholder="POnumber"
+              value="{{record.POnumber}}" required readonly/>
+          </div>
+          <!-- <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="SATAmmendmentId">SAT Ammendment Id:</label>
+            <input type="text" name="SATAmmendmentId" class="financial-compliance-input" placeholder="SAT Ammendment Id"
+              value="{{record.SATAmmendmentId.SATAmmendmentId}}" required readonly/>
+          </div> -->
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="SubrecipientName">Subrecipient Name</label>
+            <input type="text" name="SubrecipientName" placeholder="Subrecipient Name" class="financial-compliance-input"
+              value="{{record.SATAmmendmentId.SubrecipientName}}" readonly />
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="SubawardNumber">Subaward Number</label>
+            <input type="text" name="SubawardNumber" placeholder="Subaward Number" class="financial-compliance-input"
+              value="{{record.SATAmmendmentId.SubawardNumber}}" readonly />
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="PrimeAwardNumber">Award Number</label>
+            <input type="text" name="PrimeAwardNumber" placeholder="Prime Award Number" class="financial-compliance-input"
+              value="{{record.SATAmmendmentId.PrimeAwardNumber}}" readonly />
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="ProjectId">Project ID</label>
+            <input type="text" name="ProjectId" placeholder="Project ID" class="financial-compliance-input"
+              value="{{record.SATAmmendmentId.ProjectId}}" readonly />
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="PIFirstName">PI First Name</label>
+            <input type="text" name="PIFirstName" placeholder="PI First Name" class="financial-compliance-input"
+              value="{{record.SATAmmendmentId.PIFirstName}}" readonly />
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="PILastName">PI Last Name</label>
+            <input type="text" name="PILastName" placeholder="PI Last Name" class="financial-compliance-input"
+              value="{{record.SATAmmendmentId.PILastName}}" readonly />
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="PrimeSponsor">Prime Sponsor</label>
+            <input type="text" name="PrimeSponsor" placeholder="Prime Sponsor" class="financial-compliance-input"
+              value="{{record.SATAmmendmentId.PrimeSponsor}}" readonly />
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="DateFinalInvoiceRecieved">Date Final Invoice
+              Recieved:</label>
+            <input type="date" name="DateFinalInvoiceRecieved" class="financial-compliance-input"
+              value="{{record.DateFinalInvoiceRecieved|date:'Y-m-d' }}" required readonly/>
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="PrimeSponsorType">PrimeSponsorType:</label>
+            <select name="PrimeSponsorType" class="financial-compliance-input" disabled>
+              <option value="None" {% if record.PrimeSponsorType == "None" %} selected {% endif %}>Select an Option</option>
+              <option value="Federal"{% if record.PrimeSponsorType == "Federal" %} selected {% endif %}>Federal</option>
+              <option value="NonFederal"{% if record.PrimeSponsorType == "NonFederal" %} selected {% endif %}>NonFederal</option>
+            </select>
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="AwardType">AwardType:</label>
+            <select name="AwardType" class="financial-compliance-input" disabled>
+              <option value="None" {% if record.AwardType == "None" %} selected {% endif %}>Select an Option</option>
+              <option value="Cost" {% if record.AwardType == "Cost" %} selected {% endif %}>Cost</option>
+              <option value="Fixed" {% if record.AwardType == "Fixed" %} selected {% endif %}>Fixed</option>
+            </select>
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="BillingTerms">BillingTerms:</label>
+            <select name="BillingTerms" class="financial-compliance-input" disabled>
+              <option value="None" {% if record.BillingTerms == "None" %} selected {% endif %}>Select an Option</option>
+              <option value="Monthly"{% if record.BillingTerms == "Monthly" %} selected {% endif %}>Monthly</option>
+              <option value="Quaterly"{% if record.BillingTerms == "Quaterly" %} selected {% endif %}>Quaterly</option>
+              <option value="Deliverable"{% if record.BillingTerms == "Deliverable" %} selected {% endif %}>Deliverable</option>
+            </select>
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="FFATAFilledDate">FFATAFilledDate:</label>
+            <input type="checkbox" name="FFATAFilledDate" class="financial-compliance-input-checkbox"
+              value="{{record.FFATAFilledDate}}" />
+          </div>
+          <div class="financial-compliance-field">
+            <label class="financial-compliance-label" for="Notes">Notes:</label>
+            <textarea name="Notes" class="financial-compliance-input" placeholder="Notes"
+              required>{{record.Notes}}</textarea>
+          </div>
+        </div>
+        <div class="button-container">
+          <button id="cancelButton" class="styled-button hidden" type="button">Cancel</button>
+          <div class="submit-button-container">
+              <button id="submit-button" type="submit" class="styled-button hidden">Submit</button>
+          </div>
+          <div id="home-link" class="links">
+              <a href="{% url 'dashboard' %}">Home</a>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const editButton = document.getElementById("editButton");
+    const submitButton = document.getElementById("submit-button");
+    const cancelButton = document.getElementById("cancelButton");
+
+    // Function to toggle the form's editability
+    function toggleEditability(editable) {
+        const fields = document.querySelectorAll(".financial-compliance-input");
+        fields.forEach((field) => {
+            field.readOnly = !editable;
+            field.disabled = !editable;
+        });
+        const checkboxFields = document.querySelectorAll(".financial-compliance-input-checkbox");
+        checkboxFields.forEach((field) => {
+            field.disabled = !editable;
+        });
+
+        submitButton.classList.toggle("hidden", !editable);
+        cancelButton.classList.toggle("hidden", !editable);
+        editButton.classList.toggle("hidden", editable);
+    }
+
+    // Initially, the form is not editable
+    toggleEditability(false);
+
+    // Edit button click event listener
+    editButton.addEventListener("click", () => {
+        toggleEditability(true); // Make the form editable
+    });
+
+    // Back button click event listener
+    cancelButton.addEventListener("click", () => {
+        toggleEditability(false); // Make the form read-only
+    });
+  </script>
+
+</body>
+
+</html>

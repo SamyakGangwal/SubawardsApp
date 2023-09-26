@@ -1,0 +1,127 @@
+/* Add this style to your existing styles.css or in a <style> tag within the <head> of the HTML */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #0099cc, #99ccff);
+}
+
+.card {
+  width: 90%;
+  /* Adjust the width as needed */
+  max-width: 600px;
+  /* Adjust the max-width as needed */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  text-align: center;
+}
+
+.styled-button {
+  background-color: #0080ff;
+  color: white;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.styled-button:hover {
+  background-color: #0059b3;
+  /* Dark blue background on hover */
+}
+
+/* Additional styles for the Registration page */
+.register-header {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #0080ff;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.register-input.passwords-not-match {
+  border-color: #ff3333;
+  /* Add a red border for emphasis */
+}
+
+.password-match-message {
+  display: none;
+  color: #ff3333;
+  font-size: 0.9rem;
+  position: absolute;
+  top: 50%;
+  left: 13.5rem;
+  /* Adjust the distance from the input field */
+  transform: translateY(-50%);
+}
+
+.register-input-container.passwords-not-match .password-match-message {
+  display: block;
+}
+
+.register-input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1.1rem;
+  height: 40px;
+}
+
+.register-icon {
+  position: absolute;
+  top: 50%;
+  right: -1.5rem;
+  /* Adjust the distance from the input field */
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.information-icon:hover .register-tooltip {
+  display: block;
+}
+
+.register-tooltip {
+  position: absolute;
+  top: 50%;
+  right: -22rem;
+  /* Adjust the distance from the input field */
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: #ff3333;
+  display: none;
+  padding: 0.5rem;
+  background-color: white;
+  /* Adjust background color as needed */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  /* Adjust width as needed */
+}
+
+.back-links {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}

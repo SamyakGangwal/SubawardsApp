@@ -1,0 +1,243 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Subaward Records</title>
+    <link rel="shortcut icon" href="{% static 'home/favicon.ico' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'viewSubagreement.css' %}" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logout-links">
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+            <div class="back-link">
+                <a href="{% url 'list_records' %}">Back</a>
+            </div>
+            <button id="editButton" class="styled-button">Edit</button>
+            <h1 class="recordMg">Subaward Tracking</h1>
+
+            <!-- Edit button (initially visible) -->
+
+            <form class="register-form" method="post">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="PrimeAgreementExecutionDate">Prime Agreement Execution
+                            Date</label>
+                        <input type="date" name="PrimeAgreementExecutionDate" class="subagreement-input"
+                            value="{{ record.PrimeAgreementExecutionDate|date:'Y-m-d' }}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="SubrecipientName">Subrecipient Name</label>
+                        <input type="text" name="SubrecipientName" placeholder="Subrecipient Name"
+                            class="subagreement-input" value="{{record.SubrecipientName}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="UEI">UEI</label>
+                        <input type="text" name="UEI" placeholder="UEI" class="subagreement-input"
+                            value="{{record.UEI}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="SAMEntity">SAM Entity</label>
+                        <input type="checkbox" name="SAMEntity" class="subagreement-input-checkbox" {% if record.SAMEntity %} checked {% else %} {% endif %} disabled />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="SAMPI">SAM PI</label>
+                        <input type="checkbox" name="SAMPI" class="subagreement-input-checkbox" {% if record.SAMPI %}
+                            checked {% else %} {% endif %} disabled />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="SubawardOrContract">Subrecipient vs. Contractor
+                            Determination made?</label>
+                        <input type="checkbox" name="SubawardOrContract" class="subagreement-input-checkbox" {% if record.SubawardOrContract %} checked {% else %} {% endif %} disabled />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="DateOfSubawardExecution">Date of Subaward
+                            Execution</label>
+                        <input type="date" name="DateOfSubawardExecution" class="subagreement-input"
+                            value="{{ record.DateOfSubawardExecution|date:'Y-m-d' }}" readonly />
+                    </div>
+
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="Status">Status</label>
+                        <select name="Status" class="subagreement-input" disabled>
+                            <option value="Pending preaward" {% if record.Status == "Pending preaward" %} selected {% endif %}>Pending preaward</option>
+                            <option value="Pending NoA" {% if record.Status == "Pending NoA" %} selected {% endif %}>Pending
+                                NoA</option>
+                            <option value="Pending PI/DA" {% if record.Status == "Pending PI/DA" %} selected{% endif %}> Pending PI/DA</option>
+                            <option value="Pending award set up" {% if record.Status == "Pending award set up" %} selected {% endif %}>Pending award set up</option>
+                            <option value="Pending documents from Subrecipient" {% if record.Status == "Pending documents from Subrecipient" %} selected {% endif %}>Pending documents from Subrecipient</option>
+                            <option value="Pending post Award" {% if record.Status == "Pending post Award" %} selected {% endif %}>Pending post Award</option>
+                            <option value="Determined to be CFS" {% if record.Status == "Determined to be CFS" %} selected {% endif %}>Determined to be CFS</option>
+                            <option value="Active" {% if record.Status == "Active" %} selected {% endif %}>Active</option>
+                            <option value="Closed" {% if record.Status == "Closed" %} selected {% endif %}>Closed</option>
+                            <option value="Withdrawn" {% if record.Status == "Withdrawn" %} selected {% endif %}>Withdrawn
+                            </option>
+                        </select>
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="SubawardNumber">Subaward Number</label>
+                        <input type="text" name="SubawardNumber" placeholder="Subaward Number"
+                            class="subagreement-input" value="{{record.SubawardNumber}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="PrimeAwardNumber">Award Number</label>
+                        <input type="text" name="PrimeAwardNumber" placeholder="Prime Award Number"
+                            class="subagreement-input" value="{{record.PrimeAwardNumber}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="ProjectId">Project ID</label>
+                        <input type="text" name="ProjectId" placeholder="Project ID" class="subagreement-input"
+                            value="{{record.ProjectId}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="PSVendorId">PS Vendor ID</label>
+                        <input type="text" name="PSVendorId" placeholder="PS Vendor ID" class="subagreement-input"
+                            value="{{record.PSVendorId}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="PIFirstName">PI First Name</label>
+                        <input type="text" name="PIFirstName" placeholder="PI First Name" class="subagreement-input"
+                            value="{{record.PIFirstName}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="PILastName">PI Last Name</label>
+                        <input type="text" name="PILastName" placeholder="PI Last Name" class="subagreement-input"
+                            value="{{record.PILastName}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="PrimeSponsor">Prime Sponsor</label>
+                        <input type="text" name="PrimeSponsor" placeholder="Prime Sponsor" class="subagreement-input"
+                            value="{{record.PrimeSponsor}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="FFATA">FFATA reporting required?</label>
+                        <input type="checkbox" name="FFATA" class="subagreement-input-checkbox" {% if record.FFATA %}
+                            checked {% else %} {% endif %} disabled />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="IncrementallyEstimatedTotal">Incrementally Estimated
+                            Total</label>
+                        <input type="text" name="IncrementallyEstimatedTotal"
+                            placeholder="Incrementally Estimated Total" class="subagreement-input"
+                            value="{{record.IncrementallyEstimatedTotal}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="PeriodOfPerformanceStart">Period of Performance
+                            Start</label>
+                        <input type="date" name="PeriodOfPerformanceStart" class="subagreement-input"
+                            value="{{record.PeriodOfPerformanceStart|date:'Y-m-d'}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="PeriodOfPerformanceEnd">Period of Performance End</label>
+                        <input type="date" name="PeriodOfPerformanceEnd" class="subagreement-input"
+                            value="{{record.PeriodOfPerformanceEnd|date:'Y-m-d'}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="EstimatedPeriodOfPerformanceStart">Estimated Period of Performance Start</label>
+                        <input type="date" name="EstimatedPeriodOfPerformanceStart" class="subagreement-input" value="{{record.EstimatedPeriodOfPerformanceStart|date:'Y-m-d'}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="EstimatedPeriodOfPerformanceEnd">Estimated Period of
+                            Performance End</label>
+                        <input type="date" name="EstimatedPeriodOfPerformanceEnd" class="subagreement-input"
+                            value="{{record.EstimatedPeriodOfPerformanceEnd|date:'Y-m-d'}}" readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="Budget">Budget</label>
+                        <input type="checkbox" name="Budget" class="subagreement-input-checkbox" {% if record.Budget %} checked {% else %} {% endif %} disabled />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="Attachment3B">Attachment 3B</label>
+                        <input type="checkbox" name="Attachment3B" class="subagreement-input-checkbox" {% if record.Attachment3B %} checked {% else %} {% endif %} disabled />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="BudgetJustificationScore">Budget Justification</label>
+                        <input type="number" name="BudgetJustificationScore" class="subagreement-input" value="{{record.BudgetJustificationScore}}"
+                            readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="EntityRiskAssessmentScore">Entity Risk Assessment
+                            Score</label>
+                        <input type="number" name="EntityRiskAssessmentScore" class="subagreement-input" value="{{record.EntityRiskAssessmentScore}}"
+                            readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="ProjectRiskAssessmentScore">Project Risk Assessment
+                            Score</label>
+                        <input type="number" name="ProjectRiskAssessmentScore" class="subagreement-input" value="{{record.ProjectRiskAssessmentScore}}"
+                            readonly />
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="TwentyFiveKObligation">$25K Obligation Budgeted?</label>
+                        <input type="checkbox" name="TwentyFiveKObligation" class="subagreement-input-checkbox" {% if record.TwentyFiveKObligation %} checked {% else %} {% endif %} disabled/>
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="DocusignRouting">Docusign Routing</label>
+                        <textarea type="email" name="DocusignRouting" placeholder="Enter email" class="subagreement-input" readonly> {{record.DocusignRouting}} </textarea>
+                    </div>
+                    <div class="subagreement-field">
+                        <label class="subagreement-label" for="Comments">Comments</label>
+                        <textarea name="Comments" rows="4" class="subagreement-input"
+                            readonly>{{record.Comments}}</textarea>
+                    </div>
+                </div>
+
+                <div class="button-container">
+                    <button id="cancelButton" class="styled-button hidden" type="button">Cancel</button>
+                    <div class="submit-button-container">
+                        <button id="submit-button" type="submit" class="styled-button hidden">Submit</button>
+                    </div>
+                    <div id="home-link" class="links">
+                        <a href="{% url 'dashboard' %}">Home</a>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <script>
+        const editButton = document.getElementById("editButton");
+        const submitButton = document.getElementById("submit-button");
+        const cancelButton = document.getElementById("cancelButton");
+
+        // Function to toggle the form's editability
+        function toggleEditability(editable) {
+            const fields = document.querySelectorAll(".subagreement-input");
+            fields.forEach((field) => {
+                field.readOnly = !editable;
+                console.log("FIELDS: " + field.disabled);
+                field.disabled = !editable;
+            });
+            const checkboxFields = document.querySelectorAll(".subagreement-input-checkbox");
+            checkboxFields.forEach((field) => {
+                field.disabled = !editable;
+            });
+            submitButton.classList.toggle("hidden", !editable);
+            cancelButton.classList.toggle("hidden", !editable);
+            editButton.classList.toggle("hidden", editable);
+        }
+
+        // Initially, the form is not editable
+        toggleEditability(false);
+
+        // Edit button click event listener
+        editButton.addEventListener("click", () => {
+            toggleEditability(true); // Make the form editable
+        });
+
+        // Back button click event listener
+        cancelButton.addEventListener("click", () => {
+            toggleEditability(false); // Make the form read-only
+        });
+    </script>
+</body>
+
+</html>

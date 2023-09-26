@@ -1,0 +1,29 @@
+{% load static %} <!-- Make sure this line is at the top of your template -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="{%  static '/home/favicon.ico' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static '/styles.css' %}">
+  <link rel="stylesheet" href="{% static '/loginstyle.css' %}">
+  <title>Login</title>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1 class="login-header">Login</h1>
+      
+      <form class="login-form" method="post">
+        {% csrf_token %}
+        <input type="text" name="{{ form.username.name }}" placeholder="Username" class="login-input">
+        <input type="password" name="{{ form.password.name }}" placeholder="Password" class="login-input">
+        <button type="submit" class="styled-button">Login</button>
+      </form>
+      
+      <p>Don't have an account? <a href="{% url 'signup' %}">Click here to sign up</a></p>
+    </div>
+  </div>
+</body>
+</html>

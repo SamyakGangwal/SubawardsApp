@@ -1,0 +1,179 @@
+/* record_styles.css */
+
+/* Style the body and container */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #0099cc, #99ccff);
+}
+
+/* .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #0099cc, #99ccff);
+} */
+
+.container {
+  position: relative; /* Add this line to allow absolute positioning */
+}
+
+/* .card {
+  width: 100%;
+  max-width: 1000px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  text-align: center;
+} */
+
+/* Style the h1 and p elements */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #0080ff;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: #444;
+}
+
+/* Style the links and back button */
+/* .links a {
+  border: 2px solid #0080ff;
+  border-radius: 5px;
+  color: #0080ff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.links a:hover {
+  background-color: #0080ff;
+  color: white;
+} */
+
+/* Add styles for any additional elements here */
+
+#subawardButton,
+#financialButton {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #0080ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0.5rem;
+}
+
+#subawardButton:hover,
+#financialButton:hover {
+  background-color: #0055aa;
+}
+
+/* Style the section headers */
+h2 {
+  font-size: 2rem;
+  color: #333; /* Dark gray text color */
+  margin-top: 1.5rem; /* Add some space between main heading and subheadings */
+}
+
+/* Style the content within sections */
+.hidden {
+  display: none;
+}
+
+/* Style the amendment details */
+.amendment-detail {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 auto; /* Center horizontally */;
+  width: 500px
+}
+
+.amendment-item {
+  cursor: pointer;
+  color: #0080ff;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.amendment-item:hover {
+  color: #0080ff;
+}
+
+/* Style the amendment details table */
+.amendment-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px auto; /* Center the table horizontally */
+}
+
+.amendment-table th,
+.amendment-table td {
+  border: 1px solid #ccc; /* Border style for table cells */
+  padding: 8px;
+  text-align: left;
+}
+
+.amendment-table th {
+  background-color: #f0f0f0;
+  color: #333; /* Dark gray text color */
+}
+
+.amendment-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray background for even rows */
+}
+
+.amendment-table tr:hover {
+  background-color: #f0f0f0; /* Hover effect */
+}
+
+/* Style the clickable Amendment ID */
+.amendment-item {
+  color: #000000; /* Blue color for the Amendment ID */
+}
+
+.logout-links {
+  position: absolute;
+  top: 0; /* Align to the top */
+  right: 0; /* Align to the right */
+  margin: 1rem; /* Add some margin for spacing */
+}
+
+.logout-links a {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 2px solid #0080ff; /* Dark blue border */
+  border-radius: 5px;
+  color: #0080ff; /* Dark blue link color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.logout-links a:hover {
+  background-color: #0080ff; /* Dark blue background on hover */
+  color: white;
+}
+
+#backButton {
+  position: absolute;
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  margin: 1rem; /* Add some margin for spacing */
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 2px solid #0080ff; /* Dark blue border */
+  border-radius: 5px;
+  color: #0080ff; /* Dark blue link color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+#backButton:hover {
+  background-color: #0080ff; /* Dark blue background on hover */
+  color: white;
+}
