@@ -24,7 +24,6 @@
     <div class="back-link">
         <a href="{% url 'list_records' %}">Back</a>
     </div>
-    <button id="editButton" class="styled-button">Edit</button>
     <h1 class="recordMg">Financial Compliance Dashboard</h1>
       <form class="financial-compliance-form" method="post">
         {% csrf_token %}
@@ -145,7 +144,6 @@
           </div>
         </div>
         <div class="button-container">
-          <button id="cancelButton" class="styled-button hidden" type="button">Cancel</button>
           <div class="submit-button-container">
               <button id="submit-button" type="submit" class="styled-button hidden">Submit</button>
           </div>
@@ -155,42 +153,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-    const editButton = document.getElementById("editButton");
-    const submitButton = document.getElementById("submit-button");
-    const cancelButton = document.getElementById("cancelButton");
-
-    // Function to toggle the form's editability
-    function toggleEditability(editable) {
-        const fields = document.querySelectorAll(".financial-compliance-input");
-        fields.forEach((field) => {
-            field.readOnly = !editable;
-            field.disabled = !editable;
-        });
-        const checkboxFields = document.querySelectorAll(".financial-compliance-input-checkbox");
-        checkboxFields.forEach((field) => {
-            field.disabled = !editable;
-        });
-
-        submitButton.classList.toggle("hidden", !editable);
-        cancelButton.classList.toggle("hidden", !editable);
-        editButton.classList.toggle("hidden", editable);
-    }
-
-    // Initially, the form is not editable
-    toggleEditability(false);
-
-    // Edit button click event listener
-    editButton.addEventListener("click", () => {
-        toggleEditability(true); // Make the form editable
-    });
-
-    // Back button click event listener
-    cancelButton.addEventListener("click", () => {
-        toggleEditability(false); // Make the form read-only
-    });
-  </script>
 
 </body>
 

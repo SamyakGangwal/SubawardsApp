@@ -7,7 +7,6 @@ from .models import AwardType
 from .models import BillingTerms
 from .models import SubagreementTracking
 from .models import FinancialCompliance
-from .models import Subawards
 from .models import CustomUser
 
 # admin.site.register(AgreementStatus)
@@ -16,5 +15,4 @@ from .models import CustomUser
 # admin.site.register(BillingTerms)
 admin.site.register(SubagreementTracking)
 admin.site.register(FinancialCompliance)
-admin.site.register(Subawards)
 admin.site.register(CustomUser)

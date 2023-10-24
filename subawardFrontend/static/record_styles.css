@@ -16,7 +16,8 @@ body {
 } */
 
 .container {
-  position: relative; /* Add this line to allow absolute positioning */
+  position: relative;
+  /* Add this line to allow absolute positioning */
 }
 
 /* .card {
@@ -77,21 +78,15 @@ p {
 /* Style the section headers */
 h2 {
   font-size: 2rem;
-  color: #333; /* Dark gray text color */
-  margin-top: 1.5rem; /* Add some space between main heading and subheadings */
+  color: #333;
+  /* Dark gray text color */
+  margin-top: 1.5rem;
+  /* Add some space between main heading and subheadings */
 }
 
 /* Style the content within sections */
 .hidden {
   display: none;
-}
-
-/* Style the amendment details */
-.amendment-detail {
-  list-style-type: none;
-  padding: 0;
-  margin: 0 auto; /* Center horizontally */;
-  width: 500px
 }
 
 .amendment-item {
@@ -110,70 +105,183 @@ h2 {
 .amendment-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px auto; /* Center the table horizontally */
+  margin: 20px auto;
+  /* Center the table horizontally */
 }
 
 .amendment-table th,
 .amendment-table td {
-  border: 1px solid #ccc; /* Border style for table cells */
+  border: 1px solid #ccc;
+  /* Border style for table cells */
   padding: 8px;
   text-align: left;
 }
 
 .amendment-table th {
   background-color: #f0f0f0;
-  color: #333; /* Dark gray text color */
+  color: #333;
+  /* Dark gray text color */
 }
 
 .amendment-table tr:nth-child(even) {
-  background-color: #f9f9f9; /* Light gray background for even rows */
+  background-color: #f9f9f9;
+  /* Light gray background for even rows */
 }
 
 .amendment-table tr:hover {
-  background-color: #f0f0f0; /* Hover effect */
+  background-color: #f0f0f0;
+  /* Hover effect */
 }
 
 /* Style the clickable Amendment ID */
 .amendment-item {
-  color: #000000; /* Blue color for the Amendment ID */
+  color: #000000;
+  /* Blue color for the Amendment ID */
 }
 
 .logout-links {
   position: absolute;
-  top: 0; /* Align to the top */
-  right: 0; /* Align to the right */
-  margin: 1rem; /* Add some margin for spacing */
+  top: 0;
+  /* Align to the top */
+  right: 0;
+  /* Align to the right */
+  margin: 1rem 1rem 1.5rem 1rem;
+  /* Add some margin for spacing */
 }
 
 .logout-links a {
   text-decoration: none;
   padding: 0.5rem 1rem;
-  border: 2px solid #0080ff; /* Dark blue border */
+  border: 2px solid #0080ff;
+  /* Dark blue border */
   border-radius: 5px;
-  color: #0080ff; /* Dark blue link color */
+  color: #0080ff;
+  /* Dark blue link color */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .logout-links a:hover {
-  background-color: #0080ff; /* Dark blue background on hover */
+  background-color: #0080ff;
+  /* Dark blue background on hover */
   color: white;
 }
 
 #backButton {
   position: absolute;
-  top: 0; /* Align to the top */
-  left: 0; /* Align to the left */
-  margin: 1rem; /* Add some margin for spacing */
+  top: 0;
+  /* Align to the top */
+  left: 0;
+  /* Align to the left */
+  margin: 1rem;
+  /* Add some margin for spacing */
   text-decoration: none;
   padding: 0.5rem 1rem;
-  border: 2px solid #0080ff; /* Dark blue border */
+  border: 2px solid #0080ff;
+  /* Dark blue border */
   border-radius: 5px;
-  color: #0080ff; /* Dark blue link color */
+  color: #0080ff;
+  /* Dark blue link color */
   transition: background-color 0.3s ease, color 0.3s ease;
   cursor: pointer;
 }
 
 #backButton:hover {
-  background-color: #0080ff; /* Dark blue background on hover */
+  background-color: #0080ff;
+  /* Dark blue background on hover */
   color: white;
+}
+
+/* Style the amendment details */
+.amendment-detail {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 auto;
+  /* Center horizontally */
+  width: 1000px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* Change to column layout */
+}
+
+.amend {
+  text-align: right;
+  margin-top: 1rem;
+  /* Add margin to separate the "Amend" button from the table */
+}
+
+.amend a,
+button {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 2px solid #0080ff;
+  /* Dark blue border */
+  border-radius: 5px;
+  color: #0080ff;
+  /* Dark blue link color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-right: 1rem;
+}
+
+.amend a:hover,
+button:hover {
+  background-color: #0080ff;
+  /* Dark blue background on hover */
+  color: white;
+}
+
+.back-link {
+  position: absolute;
+  top: 0;
+  /* Align to the top */
+  left: 0;
+  /* Align to the right */
+  margin: 1rem 1rem 1.5rem 1rem;
+}
+
+.back-link a {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 2px solid #0080ff;
+  /* Dark blue border */
+  border-radius: 5px;
+  color: #0080ff;
+  /* Dark blue link color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.back-link a:hover {
+  background-color: #0080ff;
+  color: white;
+}
+
+/* Style for disabled button */
+button[disabled] {
+  background-color: #ccc;
+  /* Change the background color for disabled state */
+  color: #666;
+  /* Change the text color for disabled state */
+  cursor: not-allowed;
+  /* Change the cursor to 'not-allowed' */
+  opacity: 0.6;
+  /* Reduce the opacity to indicate it's disabled */
+  border: 2px solid #ccc;
+  /* Change the border color for disabled state */
+}
+
+/* Style for disabled button on hover */
+button[disabled]:hover {
+  background-color: #ccc;
+  /* Keep the background color the same on hover for disabled state */
+  color: #666;
+  /* Keep the text color the same on hover for disabled state */
+  cursor: not-allowed;
+  /* Keep the cursor as 'not-allowed' on hover for disabled state */
+}
+
+.disabledLink {
+  pointer-events: none;
+  cursor: default;
+  color: #808080;
 }

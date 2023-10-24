@@ -8,6 +8,10 @@
   <link rel="shortcut icon" href="{%  static '/home/favicon.ico' %}">
   <link rel="stylesheet" href="{% static '/styles.css' %}">
   <link rel="stylesheet" href="{% static '/dashboardstyle.css' %}">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <title>{% if user.is_authenticated %}Dashboard{% else %}Welcome to Subaward Management System{% endif %}</title>
 </head>
 <body>
@@ -16,13 +20,13 @@
       <h1>Dashboard</h1>
       <div class="heading-options">
         <div class="options">
-          <a href="{% url 'subaward_request_tracking' %}" class="option">Subaward Request and Tracking</a>
+          <a href="{% url 'create_subaward_request_tracking' %}" class="option">Subaward Request and Tracking</a>
           <a href="{% url 'list_records' %}" class="option">Records</a>
         </div>
         <div class="critical-alerts">
           <h2>Critical alerts</h2>
-          <p>Alert: There has been a security breach detected.</p>
-          <p>Alert: System maintenance scheduled for tomorrow.</p>
+          <p>Add an alert here</p>
+          <p>Add an alert here</p>
         </div>
       </div>
       <div class="links">

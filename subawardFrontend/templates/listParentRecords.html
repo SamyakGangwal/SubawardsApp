@@ -1,0 +1,165 @@
+{% load static %}
+<!-- Make sure this line is at the top of your template -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Subaward Records</title>
+  <link rel="shortcut icon" href="{% static 'home/favicon.ico' %}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'record_styles.css' %}" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="logout-links">
+        <a href="{% url 'logout' %}">Logout</a>
+      </div>
+      <h1 class="recordMg">Record Management</h1>
+      <!-- Buttons to switch between sections -->
+      <div id="button-container">
+        <button id="subawardButton">Subaward Tracking</button>
+        <button id="financialButton">Financial Compliance</button>
+      </div>
+
+      <!-- Back button (initially hidden) -->
+      <button id="backButton" class="hidden">Back</button>
+
+      <!-- Subaward Tracking Section -->
+      <div id="subawardSection" class="hidden">
+        <h2>Subaward Tracking Base Records</h2>
+        <div id="amendment-detail">
+          <table class="amendment-table">
+            <thead>
+              <tr>
+                <th>Amendment ID</th>
+                <th>Date of Creation</th>
+                <th>Subrecipient Name</th>
+                <th>Project Id</th>
+                <th>PI Name</th>
+                <th>Amend</th>
+                <th>View</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for record, cr in subawardT %}
+
+              <tr>
+                <td><a class="amendment-item" data-amendment-id="{{ record.SATAmendmentId }}"
+                    href="{% url 'list_subagreement_child_records'  amendment_id=record.SATAmendmentId %}">
+                    {{record.SATAmendmentId }}</a></td>
+                <td id="timestamp">{{ record.created }}</td>
+                <td>{{ record.SubrecipientName }}</td>
+                <td>{{ record.ProjectId }}</td>
+                <td>{{ record.PIFirstName|add:" "}}{{record.PILastName}}</td>
+                <td><a href="{% url 'update_subaward_request_tracking' amendment_id=record.SATAmendmentId %}" {% if cr%}
+                    class="disabledLink" {% endif %}>Amend</button></td>
+                <td><a class="amendment-item" data-amendment-id="{{ record.SATAmendmentId }}"
+                    href="{% url 'view_subaward_details'  amendment_id=record.SATAmendmentId %}">
+                    view</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Financial Compliance Section -->
+      <div id="financialSection" class="hidden">
+        <h2>Financial Compliance Base Records</h2>
+        <div id="amendment-detail">
+          <table class="amendment-table">
+            <thead>
+              <tr>
+                <th>Amendment ID</th>
+                <th>Date of Creation</th>
+                <th>Subrecipient Name</th>
+                <th>Project Id</th>
+                <th>PI Name</th>
+                <th>Amend</th>
+                <th>View</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for record, cr in financialComp %}
+              <tr>
+                <td><a class="amendment-item" data-amendment-id="{{ record.FCDAmendmentId }}"
+                    href="{% url 'list_financial_compliance_child_records'  amendment_id=record.FCDAmendmentId %}">
+                    {{ record.FCDAmendmentId }}</a></td>
+                <td id="timestamp">{{ record.created }}</td>
+                <td>{{ record.SATAmendmentId.SubrecipientName }}</td>
+                <td>{{ record.SATAmendmentId.ProjectId }}</td>
+                <td>{{ record.SATAmendmentId.PIFirstName|add:" "}}{{record.SATAmendmentId.PILastName}}</td>
+                <td><a href="{% url 'update_financial_compliance' amendment_id=record.FCDAmendmentId %}" {% if cr%}
+                    class="disabledLink" {% endif %}>Amend</button></td>
+                <td><a class="amendment-item" data-amendment-id="{{ record.FCDAmendmentId }}"
+                    href="{% url 'view_financial_compliance'  amendment_id=record.FCDAmendmentId %}">
+                    view</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="links">
+      <a href="{% url 'dashboard' %}">Home</a>
+    </div>
+  </div>
+
+  <script>
+    const sFbuttons = document.getElementById("button-container");
+    const subawardButton = document.getElementById("subawardButton");
+    const financialButton = document.getElementById("financialButton");
+    const backButton = document.getElementById("backButton");
+    const subawardSection = document.getElementById("subawardSection");
+    const financialSection = document.getElementById("financialSection");
+
+    subawardButton.addEventListener("click", () => {
+      subawardSection.style.display = "block";
+      sFbuttons.style.display = "none";
+      financialSection.style.display = "none";
+      backButton.style.display = "block";
+    });
+
+    financialButton.addEventListener("click", () => {
+      financialSection.style.display = "block";
+      sFbuttons.style.display = "none";
+      subawardSection.style.display = "none";
+      backButton.style.display = "block";
+    });
+
+    backButton.addEventListener("click", () => {
+      financialSection.style.display = "none";
+      subawardSection.style.display = "none";
+      backButton.style.display = "none";
+      sFbuttons.style.display = "block";
+    });
+
+    // Get the timestamp element
+    const timezoneElements = document.querySelectorAll("tbody td#timestamp");
+
+    timezoneElements.forEach((element) => {
+      // Get the timestamp in UTC format
+      const timestampUTC = new Date(element.textContent);
+
+      // Convert to the client's local timezone (Eastern Time in this case)
+      const options = { timeZone: 'America/New_York', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+      const timestampLocal = timestampUTC.toLocaleDateString('en-US', options);
+
+      // Update the content with the local timestamp
+      element.textContent = timestampLocal;
+    });
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+{% load static %}
+<!-- Make sure this line is at the top of your template -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Subaward Records</title>
+    <link rel="shortcut icon" href="{% static 'home/favicon.ico' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'record_styles.css' %}" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="back-link">
+                <a href="{% url 'list_records'%}">Back</a>
+            </div>
+            <div class="logout-links">
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+
+            <h2>Subaward Tracking Child Records</h2>
+            <div class="amendment-detail">
+                <div class="amend">
+                    {% if child %}
+                        <a href="{% url 'update_subaward_request_tracking' amendment_id=child.SATAmendmentId %}">amend</a>
+                    {% endif %}
+                </div>
+                <table class="amendment-table">
+                    <thead>
+                        <tr>
+                            <th>Amendment ID</th>
+                            <th>Date of Creation</th>
+                            <th>Subrecipient Name</th>
+                            <th>Project Id</th>
+                            <th>PI Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in subawardT %}
+                        <tr>
+                            <td><a class="amendment-item" data-amendment-id="{{ record.SATAmendmentId }}"
+                                    href="{% url 'view_subaward_details'  amendment_id=record.SATAmendmentId %}">
+                                    {{record.SATAmendmentId }}</a></td>
+                            <td id="timestamp">{{ record.created }}</td>
+                            <td>{{ record.SubrecipientName }}</td>
+                            <td>{{ record.ProjectId }}</td>
+                            <td>{{ record.PIFirstName|add:" "}}{{record.PILastName}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="links">
+            <a href="{% url 'dashboard' %}">Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Get the timestamp element
+        const timezoneElements = document.querySelectorAll("tbody td#timestamp");
+
+        timezoneElements.forEach((element) => {
+            // Get the timestamp in UTC format
+            const timestampUTC = new Date(element.textContent);
+
+            // Convert to the client's local timezone (Eastern Time in this case)
+            const options = { timeZone: 'America/New_York', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+            const timestampLocal = timestampUTC.toLocaleDateString('en-US', options);
+
+            // Update the content with the local timestamp
+            element.textContent = timestampLocal;
+        });
+
+    </script>
+</body>
+
+</html>

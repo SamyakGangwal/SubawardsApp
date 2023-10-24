@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.forms import ValidationError
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
@@ -17,7 +18,12 @@ class AgreementStatus(models.TextChoices):
     PendingASetUp = 'Pending award set up',
     PendingDocSubrecp = 'Pending documents from Subrecipient',
     PendingPostAward = 'Pending post Award',
+    PendingPO = 'Pending PO',
+    PendingAssessments = 'Pending Assessments',
     DeterminedCFS = 'Determined to be CFS',
+    OpenPending = 'Open Pending',
+    Billing = 'Billing',
+    Preaward = 'Preaward',
     Active = 'Active',
     Closed = 'Closed',
     Withdrawn = 'Withdrawn'
@@ -40,14 +46,19 @@ class BillingTerms(models.TextChoices):
 
 
 class SubagreementTracking(models.Model):
-    SATAmmendmentId = models.UUIDField(
+    SATAmendmentId = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
+    ParentAmendmentId = models.UUIDField(null=True)
+    ParentRecord = models.BooleanField(null=False)
+    FCDAmendmentId = models.ForeignKey(
+        'FinancialCompliance', null=True, on_delete=models.CASCADE)
     PrimeAgreementExecutionDate = models.DateField(null=False)
-    SubrecipientName = models.TextField(null=False)  
+    SubrecipientName = models.TextField(null=False)
     UEI = models.TextField(null=False)
     SAMEntity = models.BooleanField(null=False)
     SAMPI = models.BooleanField(null=False)
-    SubawardOrContract = models.BooleanField(null=False) #Subrecipient vs Contractor Checklist completed or not
+    # Subrecipient vs Contractor Checklist completed or not
+    SubawardOrContract = models.BooleanField(null=False)
     DateOfSubawardExecution = models.DateField(null=False)
     Status = models.CharField(choices=AgreementStatus.choices,
                               null=False, default=AgreementStatus.PendingPreAward)
@@ -90,37 +101,61 @@ class SubagreementTracking(models.Model):
                     'EstimatedPeriodOfPerformanceEnd')),
                 name='EtdPeriodOfPerfst_lt_EtdPeriodOfPerfEnd'
             ),
+            # ParentAmendmentId
+            # ParentRecord
+            models.CheckConstraint(
+                check=models.Q(ParentAmendmentId__isnull=True, ParentRecord=True) | models.Q(
+                    ParentAmendmentId__isnull=False, ParentRecord=False),
+                name="ParentAmendmentIsNullforParentRecord"
+            ),
         ]
 
+
 class FinancialCompliance(models.Model):
-    FCDAmmendmentId = models.UUIDField(
+    FCDAmendmentId = models.UUIDField(
         null=False, primary_key=True, default=uuid.uuid4, editable=False)
-    POnumber = models.TextField(null=True)
     # prefill this with subaward name, PI Name, Prime Sponsor
-    SATAmmendmentId = models.ForeignKey(
-        SubagreementTracking, null=False, on_delete=models.CASCADE)
+    ParentAmendmentId = models.UUIDField(null=True)
+    ParentRecord = models.BooleanField(null=False)
     # Note: Replace on_delete cascade with something else
+    SATAmendmentId = models.ForeignKey(
+        'SubagreementTracking', null=True, on_delete=models.CASCADE)
+    POnumber = models.TextField(null=True)
     DateFinalInvoiceRecieved = models.DateField(null=True)
+    DateFinalInvoiceDue = models.DateField(null=True)
     PrimeSponsorType = models.CharField(
-        max_length=255, choices=SponsorType.choices, null=True)
+        max_length=255, choices=SponsorType.choices, null=True, blank=True)
     AwardType = models.CharField(
-        max_length=255, choices=AwardType.choices, null=True)
+        max_length=255, choices=AwardType.choices, null=True, blank=True)
     BillingTerms = models.CharField(
-        max_length=255, choices=BillingTerms.choices, null=True)
+        max_length=255, choices=BillingTerms.choices, null=True, blank=True)
     # is not null only id another table has FFATA
     FFATAFilledDate = models.DateField(null=True)
     Notes = models.TextField()
     created = models.DateTimeField(null=False, auto_now_add=True)
 
-class Subawards(models.Model):
-    SbAId = models.UUIDField(null=False, primary_key=True,
-                             default=uuid.uuid4, editable=False)
-    SATAmmendmentId = models.ForeignKey(
-        SubagreementTracking, on_delete=models.CASCADE)
-    # Note: Replace on_delete cascade with something else
-    FCDAmmendmentId = models.ForeignKey(
-        FinancialCompliance, on_delete=models.CASCADE)
-    # Note: Replace on_delete cascade with something else
+    def save(self, *args, **kwargs):
+        # Set fields to None if they are empty strings (e.g., "")
+        if self.PrimeSponsorType == "":
+            self.PrimeSponsorType = None
+        if self.AwardType == "":
+            self.AwardType = None
+        if self.BillingTerms == "":
+            self.BillingTerms = None
+
+        super().save(*args, **kwargs)
+
+
+# class Subawards(models.Model):
+#     SbAId = models.UUIDField(null=False, primary_key=True,
+#                              default=uuid.uuid4, editable=False)
+#     SATAmmendmentId = models.ForeignKey(
+#         SubagreementTracking, on_delete=models.CASCADE)
+#     # Note: Replace on_delete cascade with something else
+#     FCDAmmendmentId = models.ForeignKey(
+#         FinancialCompliance, on_delete=models.CASCADE)
+#     # Note: Replace on_delete cascade with something else
+
 
 class CustomUser(AbstractUser):
     EMPLOYEE_TYPE = (
@@ -129,13 +164,13 @@ class CustomUser(AbstractUser):
         ('temporary_employee', 'temporary employee'),
     )
     email = models.EmailField(unique=True)
-    employee_type = models.CharField(max_length=100, choices=EMPLOYEE_TYPE, default='regular')
+    employee_type = models.CharField(
+        max_length=100, choices=EMPLOYEE_TYPE, default='regular')
 
     objects = CustomUserManager()
 
     def __str__(self):
         return self.username
-
 
 
 '''

@@ -1,0 +1,221 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="{%  static '/home/favicon.ico' %}" />
+  <link rel="stylesheet" href="{% static '/styles.css' %}" />
+  <link rel="stylesheet" href="{% static '/subagreementstyle.css' %}" />
+  <!-- Add these links to your HTML's head section -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <title>Subagreement Tracking</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <h1 class="register-header">Subagreement Tracking</h1>
+      <form class="register-form" method="post">
+        {% csrf_token %}
+        <div class="form-grid">
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="PrimeAgreementExecutionDate">Prime Agreement Execution Date</label>
+            <input type="date" name="PrimeAgreementExecutionDate" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="SubrecipientName">Subrecipient Name</label>
+            <input type="text" name="SubrecipientName" placeholder="Subrecipient Name" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="UEI">UEI</label>
+            <input type="text" name="UEI" placeholder="UEI" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="SAMEntity">SAM Entity</label>
+            <input type="checkbox" name="SAMEntity" class="subagreement-input-checkbox" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="SAMPI">SAM PI</label>
+            <input type="checkbox" name="SAMPI" class="subagreement-input-checkbox" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="SubawardOrContract">Subrecipient vs. Contractor Determination
+              made?</label>
+            <input type="checkbox" name="SubawardOrContract" class="subagreement-input-checkbox" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="DateOfSubawardExecution">Date of Subaward Execution</label>
+            <input type="date" name="DateOfSubawardExecution" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="Status">Status</label>
+            <select name="Status" class="subagreement-input">
+              <option value="none" selected disabled hidden>
+                Select an Option
+              </option>
+              <option value="Pending preaward" {% if record.Status == "Pending preaward" %} selected {% endif %}>Pending preaward</option>
+              <option value="Pending NoA" {% if record.Status == "Pending NoA" %} selected {% endif %}>Pending NoA</option>
+              <option value="Pending PI/DA" {% if record.Status == "Pending PI/DA" %} selected{% endif %}> Pending PI/DA</option>
+              <option value="Pending award set up" {% if record.Status == "Pending award set up" %} selected {% endif %}>Pending award set up</option>
+              <option value="Pending documents from Subrecipient" {% if record.Status == "Pending documents from Subrecipient" %} selected {% endif %}>Pending documents from Subrecipient</option>
+              <option value="Pending post Award" {% if record.Status == "Pending post Award" %} selected {% endif %}>Pending post Award</option>
+              <option value="Determined to be CFS" {% if record.Status == "Determined to be CFS" %} selected {% endif %}>Determined to be CFS</option>
+              <option value="Pending PO" {% if record.Status == "Pending PO" %} selected {% endif %}>Pending PO</option>
+              <option value="Pending Assessments" {% if record.Status == "Pending Assessments" %} selected {% endif %}>Pending Assessments</option>
+              <option value="Open Pending" {% if record.Status == "Open Pending" %} selected {% endif %}>Open Pending</option>
+              <option value="Billing" {% if record.Status == "Billing" %} selected {% endif %}>Billing</option>
+              <option value="Preaward" {% if record.Status == "Preaward" %} selected {% endif %}>Preaward</option>
+              <option value="Active" {% if record.Status == "Active" %} selected {% endif %}>Active</option>
+              <option value="Closed" {% if record.Status == "Closed" %} selected {% endif %}>Closed</option>
+              <option value="Withdrawn" {% if record.Status == "Withdrawn" %} selected {% endif %}>Withdrawn</option>
+            </select>
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="SubawardNumber">Subaward Number</label>
+            <input type="text" name="SubawardNumber" placeholder="Subaward Number" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="PrimeAwardNumber">Award Number</label>
+            <input type="text" name="PrimeAwardNumber" placeholder="Prime Award Number" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="ProjectId">Project ID</label>
+            <input type="text" name="ProjectId" placeholder="Project ID" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="PSVendorId">PS Vendor ID</label>
+            <input type="text" name="PSVendorId" placeholder="PS Vendor ID" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="PIFirstName">PI First Name</label>
+            <input type="text" name="PIFirstName" placeholder="PI First Name" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="PILastName">PI Last Name</label>
+            <input type="text" name="PILastName" placeholder="PI Last Name" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="PrimeSponsor">Prime Sponsor</label>
+            <input type="text" name="PrimeSponsor" placeholder="Prime Sponsor" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="FFATA">FFATA reporting required?</label>
+            <input type="checkbox" name="FFATA" class="subagreement-input-checkbox" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="IncrementallyEstimatedTotal">Incrementally Estimated Total</label>
+            <input type="text" name="IncrementallyEstimatedTotal" placeholder="Incrementally Estimated Total"
+              class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="PeriodOfPerformanceStart">Period of Performance Start</label>
+            <input type="date" name="PeriodOfPerformanceStart" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="PeriodOfPerformanceEnd">Period of Performance End</label>
+            <input type="date" name="PeriodOfPerformanceEnd" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="EstimatedPeriodOfPerformanceStart">Estimated Period of Performance
+              Start</label>
+            <input type="date" name="EstimatedPeriodOfPerformanceStart" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="EstimatedPeriodOfPerformanceEnd">Estimated Period of Performance
+              End</label>
+            <input type="date" name="EstimatedPeriodOfPerformanceEnd" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="Budget">Budget</label>
+            <input type="checkbox" name="Budget" class="subagreement-input-checkbox" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="Attachment3B">Attachment 3B</label>
+            <input type="checkbox" name="Attachment3B" class="subagreement-input-checkbox" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="BudgetJustificationScore">Budget Justification</label>
+            <input type="number" name="BudgetJustificationScore" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="EntityRiskAssessmentScore">Entity Risk Assessment Score</label>
+            <input type="number" name="EntityRiskAssessmentScore" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="ProjectRiskAssessmentScore">Project Risk Assessment Score</label>
+            <input type="number" name="ProjectRiskAssessmentScore" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="TwentyFiveKObligation">$25K Obligation Budgeted?</label>
+            <input type="checkbox" name="TwentyFiveKObligation" class="subagreement-input-checkbox" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="DocusignRouting">Docusign Routing</label>
+            <input type="email" name="DocusignRouting" placeholder="Enter email" class="subagreement-input" />
+          </div>
+          <div class="subagreement-field">
+            <label class="subagreement-label" for="Comments">Comments</label>
+            <textarea name="Comments" rows="4" class="subagreement-input"></textarea>
+          </div>
+        </div>
+        <button id="submit-button" type="submit" class="styled-button">
+          Submit
+        </button>
+      </form>
+      <div class="links">
+        <a id="logout-link" href="{% url 'logout' %}">logout</a>
+        <a href="{% url 'dashboard' %}">Home</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const logoutLink = document.getElementById("logout-link");
+      const form = document.querySelector(".register-form");
+      const submitButton = document.getElementById("submit-button");
+
+      logoutLink.addEventListener("click", function (event) {
+        const confirmLogout = confirm("Are you sure you want to logout?");
+        if (!confirmLogout) {
+          event.preventDefault(); // Prevent the link from navigating
+        }
+      });
+
+      form.addEventListener("submit", function (event) {
+        const inputs = form.querySelectorAll(
+          "input[type='text'], input[type='date'], input[type='email'], textarea, select"
+        );
+        let emptyFields = [];
+        inputs.forEach((input) => {
+          if (input.value.trim() === "" && input.required) {
+            emptyFields.push(input);
+          }
+        });
+
+        // Set checkbox values to true if checked, false otherwise
+        const checkboxes = form.querySelectorAll("input[type='checkbox']");
+        checkboxes.forEach((checkbox) => {
+          const checkboxName = checkbox.name;
+          form.elements[checkboxName].value = checkbox.checked;
+        });
+
+        if (emptyFields.length > 0) {
+          event.preventDefault();
+          const errorMessage =
+            "The following fields are required: " +
+            emptyFields.map((field) => field.name).join(", ");
+          alert(errorMessage);
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

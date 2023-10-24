@@ -118,7 +118,7 @@ a:hover {
     height: 35px;
     width: 55%;
     /* Make text fields take full available width */
-    float: left;
+    /* float: left; */
 }
 
 /* Adjusted style for checkboxes */
