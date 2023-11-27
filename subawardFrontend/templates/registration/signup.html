@@ -5,10 +5,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="shortcut icon" href="{%  static '/home/favicon.ico' %}">
+    <link rel="icon" href="{% static 'frontend/iconImage/favicon.ico' %}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static '/styles.css' %}" />
-    <link rel="stylesheet" href="{% static '/signupstyle.css' %}" />
+    <link rel="stylesheet" href="{% static 'frontend/css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'frontend/css/signupstyle.css' %}" />
 
     <title>Register</title>
   </head>
@@ -28,7 +28,8 @@
             />
             <div class="information-icon">
               <img
-                src="{% static '/images/info_icon.png' %}"
+                src="{% static 'frontend/infoimages/info_icon.png' %}"
+                type="image/x-icon"
                 alt="Info"
                 class="register-icon"
               />
@@ -40,6 +41,14 @@
           </div>
           <div class="register-input-container">
             <input
+            type="email"
+            name="email"
+            placeholder="{{ form.email.label }}"
+            class="register-input"
+            />
+          </div>
+          <div class="register-input-container">
+            <input
               id="password"
               type="password"
               name="password1"
@@ -48,12 +57,13 @@
             />
             <div class="information-icon">
               <img
-                src="{% static '/images/info_icon.png' %}"
+                src="{% static 'frontend/infoimages/info_icon.png' %}"
                 alt="Info"
+                type="image/x-icon"
                 class="register-icon"
               />
               <span class="register-tooltip"
-                >Your password can’t be too similar to your other personal
+                >Your password can't be too similar to your other personal
                 information. Your password must contain at least 8 characters,
                 including letters and numbers.</span
               >
@@ -77,6 +87,6 @@
         </div>
       </div>
     </div>
-    <script src="{% static '/signupscript.js' %}"></script>
+    <script src="{% static 'frontend/js/signupscript.js' %}"></script>
   </body>
 </html>

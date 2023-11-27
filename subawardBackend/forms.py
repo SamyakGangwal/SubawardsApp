@@ -1,15 +1,16 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm, ValidationError
+from django.forms import ModelForm, ValidationError, CharField
 from .models import CustomUser, SponsorType, AwardType, AgreementStatus, SubagreementTracking, FinancialCompliance
 
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = UserCreationForm.Meta.fields  # Include any additional fields if needed
+        fields = ["username", "email", "password1", "password2"]  # Include any additional fields if needed
 
 
 class SubagreementTrackingForm(ModelForm):
+    Comments = CharField(required=False)
     class Meta:
         model = SubagreementTracking
         fields = ["PrimeAgreementExecutionDate",
@@ -38,6 +39,8 @@ class SubagreementTrackingForm(ModelForm):
                   "BudgetJustificationScore",
                   "EntityRiskAssessmentScore",
                   "ProjectRiskAssessmentScore",
+                  "OverallRiskAssessmentScore",
+                  "USMCRiskDetermination",
                   "TwentyFiveKObligation",
                   "DocusignRouting",
                   "Comments",

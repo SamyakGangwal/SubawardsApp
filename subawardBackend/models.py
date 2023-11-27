@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.forms import ValidationError
 from django.utils import timezone
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.contrib.postgres.fields import ArrayField
 from .managers import CustomUserManager
 
@@ -15,19 +15,22 @@ class AgreementStatus(models.TextChoices):
     PendingPreAward = 'Pending preaward',
     PendingNoa = 'Pending NoA',
     PendingPIDA = 'Pending PI/DA',
-    PendingASetUp = 'Pending award set up',
     PendingDocSubrecp = 'Pending documents from Subrecipient',
     PendingPostAward = 'Pending post Award',
     PendingPO = 'Pending PO',
     PendingAssessments = 'Pending Assessments',
     DeterminedCFS = 'Determined to be CFS',
     OpenPending = 'Open Pending',
-    Billing = 'Billing',
+    Executed = 'Executed',
     Preaward = 'Preaward',
     Active = 'Active',
     Closed = 'Closed',
     Withdrawn = 'Withdrawn'
 
+class USMCRiskTypes(models.TextChoices):
+    Low = 'Low',
+    Medium = 'Medium',
+    High = 'High'
 
 class SponsorType(models.TextChoices):
     Federal = 'Federal',
@@ -81,10 +84,16 @@ class SubagreementTracking(models.Model):
     BudgetJustificationScore = models.IntegerField(null=False)
     EntityRiskAssessmentScore = models.IntegerField(null=False)
     ProjectRiskAssessmentScore = models.IntegerField(null=False)
+    OverallRiskAssessmentScore = models.IntegerField(null=False)
+    USMCRiskDetermination = models.CharField(choices=USMCRiskTypes.choices,
+                              null=False)
     TwentyFiveKObligation = models.BooleanField(null=False)
     DocusignRouting = ArrayField(models.EmailField(max_length=254))
-    Comments = models.TextField(null=False)
+    Comments = models.TextField(null=True)
     created = models.DateTimeField(null=False, auto_now_add=True)
+
+    def get_USMCRiskType(self) -> USMCRiskTypes:
+        return USMCRiskTypes[self.USMCRiskDetermination]
 
     def get_agreement_status(self) -> AgreementStatus:
         return AgreementStatus[self.Status]
@@ -146,133 +155,38 @@ class FinancialCompliance(models.Model):
         super().save(*args, **kwargs)
 
 
-# class Subawards(models.Model):
-#     SbAId = models.UUIDField(null=False, primary_key=True,
-#                              default=uuid.uuid4, editable=False)
-#     SATAmmendmentId = models.ForeignKey(
-#         SubagreementTracking, on_delete=models.CASCADE)
-#     # Note: Replace on_delete cascade with something else
-#     FCDAmmendmentId = models.ForeignKey(
-#         FinancialCompliance, on_delete=models.CASCADE)
-#     # Note: Replace on_delete cascade with something else
+# TODO: update this such that I am able to add the correct user type, and , umb email sign up with OTP and all and then single sign on
+class CustomUser(AbstractUser, PermissionsMixin):
+    username = models.CharField(max_length=150, unique=True, null=False, blank=False)
+    email = models.EmailField(unique=True, null=False, blank=False)
+    first_name = models.CharField(max_length=300, blank=False)
+    last_name = models.CharField(max_length=300, blank=False)
+    is_active = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=True)
 
-
-class CustomUser(AbstractUser):
-    EMPLOYEE_TYPE = (
-        ('student_employee', 'student employee'),
-        ('permanent_employee', 'permanent employee'),
-        ('temporary_employee', 'temporary employee'),
-    )
-    email = models.EmailField(unique=True)
-    employee_type = models.CharField(
-        max_length=100, choices=EMPLOYEE_TYPE, default='regular')
+    date_joined = models.DateField(default=timezone.now)
+    last_login = models.DateTimeField(blank=True, null=True)
 
     objects = CustomUserManager()
 
+    USERNAME_FIELD= 'email'
+    EMAIL_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+
+    class Meta:
+        verbose_name = 'User'
+        verbose_name = 'Users'
+
+    def get_full_name(self):
+        return self.first_name + " " + self.last_name
+    
+    def get_short_name(self):
+        return self.first_name
+
     def __str__(self):
         return self.username
-
-
-'''
-Financial Compliance
-    FCDAmmendmentId
-    POnumber
-    SubsiteName (present in new screen and pre filled maybe related to the subrecipient Agreement tracking)
-    PIName
-    FinalInvoiceDueDate
-    DateFinalInvoiceRecieved
-    PrimeSponsor
-    AwardType
-    BillingTerms
-    FFATAFilledDate BOOLEAN (only active if there in previous table)
-    Notes
-'''
-
-'''
-    Subrecipient Agreement Tracking 
-
-    SATAmmendmentId UUID PRIMARY KEY,
-    PrimeAgreementExecutionDate DATE NOT NULL,
-    SubrecipientName TEXT NOT NULL,
-    UEI TEXT NOT NULL,
-    SAMEntity BOOLEAN NOT NULL,
-    SAMPI BOOLEAN NOT NULL,
-    SubawardOrContract BOOLEAN NOT NULL, //IF yes then SubAward else SubawardOrContract
-    DateOfExecution DATE NOT NULL,
-    Status AgreementStatus NOT NULL,
-    SubAwardNumber TEXT,
-    AwardNumber TEXT,
-    ProjectID TEXT NOT NULL,
-    PSVendorID TEXT NOT NULL,
-    PIFirstName TEXT NOT NULL,
-    PILastName TEXT NOT NULL,
-    PrimeSponsor SponsorType NOT NULL,
-    FFATA BOOLEAN NOT NULL,
-    IncrementallyEstimatedTotal DECIMAL(12,2) NOT NULL,
-    PeriodOfPerformanceStart DATE NOT NULL,
-    PeriodOfPerformanceEnd DATE NOT NULL,
-    EstimatedPeriodOfPerformanceStart DATE NOT NULL,
-    EstimatedPeriodOfPerformanceEnd DATE NOT NULL,
-    Budget BOOLEAN NOT NULL,
-    Attachment3B BOOLEAN NOT NULL,
-    BudgetJustification BOOLEAN NOT NULL,
-    EntityRiskAssessment BOOLEAN NOT NULL,
-    ProjectRiskAssessment BOOLEAN NOT NULL,
-    25KObligation BOOLEAN NOT NULL,
-    DocusignRouting (WIP)
-    Comments TEXT
-
-    SponsorType ENUM (
-        "Federal",
-        "Non-Federal"
-    )
-
-    AgreementStatus ENUM (
-        "Pending NoA",
-        "Pending PI/DA",
-        "Pending award set up",
-        "Pending documents from Subrecipient",
-        "Pending post Award",
-        "Determined to be CFS",
-        "Active",
-        "Closed",
-        "Withdrawn",
-    )
-    AwardType ENUM (
-        COST,
-        FIXED
-    )
-
-    BillingTerms ENUM (
-        Monthly,
-        Quaterly,
-        Deliverable
-    )
-
-    Subawards
-    SbAId UUID PRIMARY KEY
-    SATAmmendmentId UUID NOT NULL UNIQUE
-    FCDAmmendmentId UUID NOT NULL UNIQUE
-
-
-
-    Financial Compliance
-    FCDAmmendmentId
-    POnumber
-    SubsiteName (present in new screen and pre filled maybe related to the subrecipient Agreement tracking)
-    PIName
-    FinalInvoiceDueDate
-    DateFinalInvoiceRecieved
-    PrimeSponsor
-    AwardType
-    FFATAFilledDate BOOLEAN (only active if there in previous table)
-    Notes
-
-'''
-
-'''
-
-Note down constrains:
-1. 
-
-'''
+    
+    @property
+    def is_staff(self):
+        return self.is_staff

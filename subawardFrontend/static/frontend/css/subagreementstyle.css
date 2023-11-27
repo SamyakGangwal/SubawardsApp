@@ -58,6 +58,12 @@
     margin-bottom: 1rem;
 }
 
+.subagreement-label:not([data-exclude-asterisk])::before {
+    content: '*'; /* Insert a red asterisk before the label text */
+    color: red;   /* Red color for the asterisk */
+    margin-right: 0.2rem; /* Add some spacing between the asterisk and the label text */
+}
+
 .subagreement-label {
     margin-right: 0.5rem;
     font-size: 1rem;

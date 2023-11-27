@@ -5,9 +5,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" href="{% static '/home/favicon.ico' %}" />
-  <link rel="stylesheet" href="{% static 'styles.css' %}" />
-  <link rel="stylesheet" href="{% static 'financialcompliancestyle.css' %}" />
+  <link rel="icon" href="{% static 'frontend/iconImage/favicon.ico' %}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'frontend/cssstyles.css' %}" />
+  <link rel="stylesheet" href="{% static 'frontend/cssfinancialcompliancestyle.css' %}" />
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -94,14 +94,13 @@
               <option value="Pending preaward" {% if record.SATAmendmentId.Status == "Pending preaward" %} selected {% endif %}>Pending preaward</option>
               <option value="Pending NoA" {% if record.SATAmendmentId.Status == "Pending NoA" %} selected {% endif %}>Pending NoA</option>
               <option value="Pending PI/DA" {% if record.SATAmendmentId.Status == "Pending PI/DA" %} selected{% endif %}> Pending PI/DA</option>
-              <option value="Pending award set up" {% if record.SATAmendmentId.Status == "Pending award set up" %} selected {% endif %}>Pending award set up</option>
               <option value="Pending documents from Subrecipient" {% if record.SATAmendmentId.Status == "Pending documents from Subrecipient" %} selected {% endif %}>Pending documents from Subrecipient</option>
               <option value="Pending post Award" {% if record.SATAmendmentId.Status == "Pending post Award" %} selected {% endif %}>Pending post Award</option>
               <option value="Determined to be CFS" {% if record.SATAmendmentId.Status == "Determined to be CFS" %} selected {% endif %}>Determined to be CFS</option>
               <option value="Pending PO" {% if record.SATAmendmentId.Status == "Pending PO" %} selected {% endif %}>Pending PO</option>
               <option value="Pending Assessments" {% if record.SATAmendmentId.Status == "Pending Assessments" %} selected {% endif %}>Pending Assessments</option>
               <option value="Open Pending" {% if record.SATAmendmentId.Status == "Open Pending" %} selected {% endif %}>Open Pending</option>
-              <option value="Billing" {% if record.SATAmendmentId.Status == "Billing" %} selected {% endif %}>Billing</option>
+              <option value="Executed" {% if record.SATAmendmentId.Status == "Executed" %} selected {% endif %}>Executed</option>
               <option value="Preaward" {% if record.SATAmendmentId.Status == "Preaward" %} selected {% endif %}>Preaward</option>
               <option value="Active" {% if record.SATAmendmentId.Status == "Active" %} selected {% endif %}>Active</option>
               <option value="Closed" {% if record.SATAmendmentId.Status == "Closed" %} selected {% endif %}>Closed</option>
